@@ -6,20 +6,21 @@ options = TextOptions()
 opts = options.parse()
 
 class Preprocessing:
-    def load_dataset(opts):
+    def load_dataset(self, opts):
         # Load the dataset
         data = pd.read_csv(opts.dataset)
+        data = data[1:10]
         # Display the first few rows
         print(data.head())
         print(data.shape)
         return data
 
-    def preprocessing(data):
+    def preprocessing(self, data):
         # Preprocessing: Convert text to lowercase and remove punctuation
         data['text'] = data['text'].str.lower().str.replace('[^\w\s]', '')
         return data
 
-    def split_dataset(data):
+    def split_dataset(self, data):
         # Split the data into training and testing sets
         X_train, X_test, y_train, y_test = train_test_split(data['text'], data['label'], test_size=0.2, random_state=42)
         return X_train, X_test, y_train, y_test

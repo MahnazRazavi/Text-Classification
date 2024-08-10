@@ -10,12 +10,12 @@ opts = options.parse()
 
 
 if __name__ == "__main__":
-    X_train, X_test, y_train, y_test = Preprocessing.main()
+    X_train, X_test, y_train, y_test = Preprocessing().main()
 
 
     token = Token(opts)
     X_train_encoded, X_test_encoded= token.main(X_train, X_test)
-    token.save(X_train_encoded, X_test_encoded)
+    token.save(opts, X_train_encoded, X_test_encoded)
 
     trainer = Trainer(opts)
     trainer.train(X_train_encoded, X_test_encoded, y_train, y_test)

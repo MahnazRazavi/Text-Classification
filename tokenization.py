@@ -1,5 +1,4 @@
 from transformers import BertTokenizer
-from options import TextOptions
 import pickle
 
 
@@ -23,7 +22,7 @@ class Token:
         X_test_encoded = self.encode_texts(X_test)
         return X_train_encoded, X_test_encoded
 
-    def save(opts, X_train_encoded, X_test_encoded):
+    def save(self, opts, X_train_encoded, X_test_encoded):
         # Save encoded data using pickle
         with open(opts.token_output + 'X_train_encoded.pkl', 'wb') as f:
             pickle.dump(X_train_encoded, f)
