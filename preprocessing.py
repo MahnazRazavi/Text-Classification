@@ -9,7 +9,6 @@ class Preprocessing:
     def load_dataset(self, opts):
         # Load the dataset
         data = pd.read_csv(opts.dataset)
-        data = data[1:10]
         # Display the first few rows
         print(data.head())
         print(data.shape)
