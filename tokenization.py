@@ -16,7 +16,14 @@ class Token:
             truncation=True,
             return_tensors='tf'
         )
-    
+    def encode_text(self, text, max_length=128):
+        return self.tokenizer.encode_plus(
+                text,
+                max_length=max_length,
+                padding='max_length',
+                truncation=True,
+                return_tensors='tf'
+            )
     def main(self, X_train, X_test):
         X_train_encoded = self.encode_texts(X_train)
         X_test_encoded = self.encode_texts(X_test)
