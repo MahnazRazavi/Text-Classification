@@ -2,3 +2,4 @@ model/
 dataset/
 input/
 output/
+__pycache__/
