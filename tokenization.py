@@ -3,9 +3,9 @@ import pickle
 
 
 class Token:
-    def __init__(self, opts): 
+    def __init__(self): 
         # Load the BERT tokenizer
-        self.tokenizer = BertTokenizer.from_pretrained(opts.model_path)
+        self.tokenizer = BertTokenizer.from_pretrained("model/bert-base-uncased")
 
     # Tokenize the text
     def encode_texts(self, texts, max_length=128):

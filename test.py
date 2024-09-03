@@ -1,38 +1,40 @@
 import time
 import numpy as np
-from options import TextOptions
 from tokenization import Token
 import tensorflow as tf
+import pathlib
+
 
 class TextClassificatin:
-    def __init__(self, options):
-        self.opt = options
+    def __init__(self):
         # Load the trained model
-        self.model = tf.saved_model.load(self.opt.model_output)
+        self.model = tf.saved_model.load("output/model/tcl")
 
     def preprocessing(self, text):
         # Preprocessing: Convert text to lowercase and remove punctuation
-        text = text.lower().replace('[^\w\s]', '')
+        text = text.lower().replace("[^\w\s]", "")
         return text
-    
+
     def text_classification(self, text):
         text = self.preprocessing(text)
-        text_encode = Token(self.opt).encode_text(text)
+        text_encode = Token().encode_text(text)
         result = self.predict(text_encode)
         return result
-    
+
     def predict(self, inputs):
         # Step 6: Get the default signature function for inference
         infer = self.model.signatures["serving_default"]
 
         # Step 7: Perform inference
         # Ensure the input tensor names match the expected inputs of the model
-        outputs = infer(input_ids=inputs["input_ids"], 
-                        attention_mask=inputs["attention_mask"], 
-                        token_type_ids=inputs.get("token_type_ids"))
+        outputs = infer(
+            input_ids=inputs["input_ids"],
+            attention_mask=inputs["attention_mask"],
+            token_type_ids=inputs.get("token_type_ids"),
+        )
 
         # Step 8: Extract the logits and perform post-processing
-        logits = outputs['logits']
+        logits = outputs["logits"]
         predicted_class = tf.argmax(logits, axis=1).numpy()
 
         return predicted_class
@@ -47,7 +49,7 @@ class TextClassificatin:
             avg_inference_time = (end_time - start_time) / n_runs
             inference_times.append(avg_inference_time)
         return np.mean(inference_times), np.std(inference_times)
-    
+
 
 if __name__ == "__main__":
     options = TextOptions()
